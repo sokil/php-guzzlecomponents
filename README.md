@@ -19,3 +19,10 @@ $client->addSubscriber(new \Sokil\Guzzle\Plugin\RequestSign(array(
 )));
 ```
 
+| Parameter | Type | Required | Default value	| Description |
+|---	|--- |--- |---	|---	|
+| key | string | required || Key which used to crypt message |
+| algo | string | optional | sha1 | Crypt algorythm |
+| queryParamName | string | optional | sign | Name of query string parameter where signatupe passed	|
+| additionalParams | array | optional || Parameters, additionaly send in query string and signed if request passed through GET method |
+
