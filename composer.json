@@ -1,0 +1,19 @@
+{
+    "name": "sokil/php-guzzlecomponents",
+    "description": "Extensions for PHP Guzzle lib",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmytro Sokil",
+            "email": "dmytro.sokil@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzle/guzzle": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Sokil": "src/"
+        }
+    }
+}
