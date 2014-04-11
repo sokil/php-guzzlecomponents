@@ -22,6 +22,7 @@ class RequestSign implements EventSubscriberInterface
         'algo'              => 'sha1',
         'key'               => null,
         'queryParamName'    => 'sign',
+        'additionalParams'  => null,
     );
     
     public function __construct(array $options)
@@ -38,15 +39,21 @@ class RequestSign implements EventSubscriberInterface
     
     public function onRequestBeforeSend(Event $event)
     {
-        // POST request - sign POST body
-        if($event['request'] instanceof EntityEnclosingRequestInterface) {
-            $messageToSign = $event['request']->getBody();
+        $query = $event['request']->getQuery();
+        
+        // add additional data if specified
+        if(is_array($this->_options['additionalParams'])) {
+            $query->merge($this->_options['additionalParams']);
         }
-        // GET request - sign QUERY_STRING
-        else {
-            $query = $event['request']->getQuery()->getAll();
-            ksort($query);
-            $messageToSign = http_build_query($query);
+            
+        if($event['request'] instanceof EntityEnclosingRequestInterface) {
+            // POST request - sign POST body
+            $messageToSign = $event['request']->getBody();
+        } else {
+            // GET request - sign QUERY_STRING
+            $queryArray = $query->getAll();
+            ksort($queryArray);
+            $messageToSign = http_build_query($queryArray);
         }
         
         // get digest

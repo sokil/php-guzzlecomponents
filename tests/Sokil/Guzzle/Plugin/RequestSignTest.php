@@ -17,7 +17,10 @@ class RequestSignTest extends \PHPUnit_Framework_TestCase
         
         // add request sign plugin
         $this->_client->addSubscriber(new \Sokil\Guzzle\Plugin\RequestSign(array(
-            'key'   => 'Shared secret key used for generating the HMAC variant of the message digest'
+            'key'   => 'Shared secret key used for generating the HMAC variant of the message digest',
+            'additionalParams' => array(
+                'akey' => 'avalue',
+            )
         )));
     }
     
@@ -26,7 +29,7 @@ class RequestSignTest extends \PHPUnit_Framework_TestCase
         $request = $this->_client->get('/search?z=z&y=y&x=x&q=q');
         $request->send();
         
-        $this->assertEquals('c77c4d736078f037b44d01d187521b472d19d1bc', $request->getQuery()->get('sign'));
+        $this->assertEquals('b36591ff2b8bdda9611b1e136cadc064f3a12e4a', $request->getQuery()->get('sign'));
     }
     
     public function testSignPostRequest() 
