@@ -1,6 +1,16 @@
 Guzzle Components
 =================
 
+Installation
+------------
+
+Installation can be made through Composer:
+```
+require: {
+    "sokil/php-guzzlecomponents": "dev-master"
+}
+```
+
 Signing request
 ---------------
 
