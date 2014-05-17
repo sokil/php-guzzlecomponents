@@ -39,6 +39,7 @@ class RequestSign implements EventSubscriberInterface
     
     public function onRequestBeforeSend(Event $event)
     {
+        /* @var $query \Guzzle\Http\QueryString */
         $query = $event['request']->getQuery();
         
         // add additional data if specified
@@ -46,14 +47,17 @@ class RequestSign implements EventSubscriberInterface
             $query->merge($this->_options['additionalParams']);
         }
             
+        // sign QUERY_STRING
+        $queryArray = $query->toArray();
+        ksort($queryArray);
+        $messageToSign = http_build_query($queryArray);
+        
+        // POST request - sign POST body
         if($event['request'] instanceof EntityEnclosingRequestInterface) {
-            // POST request - sign POST body
-            $messageToSign = $event['request']->getBody();
-        } else {
-            // GET request - sign QUERY_STRING
-            $queryArray = $query->getAll();
-            ksort($queryArray);
-            $messageToSign = http_build_query($queryArray);
+            $postBody = $event['request']->getBody();
+            if($postBody) {
+                $messageToSign .= $postBody;
+            }
         }
         
         // get digest

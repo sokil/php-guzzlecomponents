@@ -35,16 +35,16 @@ class RequestSignTest extends \PHPUnit_Framework_TestCase
     public function testSignPostRequest() 
     {
         $request = $this->_client
-            ->post('/search')
+            ->post('/search?z=z&y=y&x=x&q=q')
             ->setBody(array(
-                'z' => 'z',
-                'y' => 'y',
-                'x' => 'x',
-                'q' => 'q',
+                'c' => 'c',
+                'b' => 'b',
+                'a' => 'a',
+                'd' => 'd',
             ), 'application/x-www-form-urlencoded');
         
         $request->send();
         
-        $this->assertEquals('0cb09dd6b92cc5a7e6bcc315879ac24dc229465f', $request->getQuery()->get('sign'));
+        $this->assertEquals('611ca71c62848c6fa911bcb6d89fa0b49b90573b', $request->getQuery()->get('sign'));
     }
 }
