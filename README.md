@@ -1,4 +1,4 @@
-Guzzle Components
+Guzzle 3 Components
 =================
 
 Installation
